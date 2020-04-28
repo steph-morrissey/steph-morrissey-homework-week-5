@@ -2,7 +2,14 @@
 $(document).ready(function () {
   console.log("ready!");
 });
+// Variable for displaying current date
+const currentDate = moment().format("dddd, MMMM Do");
 
+//Display current date
+function displayCurrentDate() {
+  $("#date-display").text(currentDate);
+}
+displayCurrentDate();
 // Declaring Array for timeblocks
 const timeblocksArray = [
   { id: "0", time: "09", meridiem: "am" },
