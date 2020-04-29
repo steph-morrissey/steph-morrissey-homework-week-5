@@ -25,14 +25,20 @@ function displayCurrentDate() {
 function hourlyTimeblock(hour, index) {
   // create each timeblock row
   const myRow = $("<div>").attr({ class: "row border-bottom" });
+  $form = $("<form></form>");
+  $form.append("<input type='password' class='form-control'>");
+
+  const button = $("<button>").text("+");
   const hourCol = $("<div>")
-    .attr({ class: "col-2 p-2" })
+    .attr({ class: "col-2 p-4" })
     .text(hour.time + hour.meridiem);
-  const eventsCol = $("<div>").attr({ class: "col-8 p-2" });
-  const deleteCol = $("<div>").attr({ class: "col-2 p-2" });
-  myRow.append(hourCol, eventsCol, deleteCol);
+  const eventsCol = $("<div>").attr({ class: "col-8 p-4" });
+  const addCol = $("<div>").attr({ class: "col-2 p-4" }).append(button);
+  eventsCol.append($form);
+  myRow.append(hourCol, eventsCol, addCol);
   $(".eventsRow").append(myRow);
 }
+
 function displayTimeblocks() {
   timeblocksArray.forEach(hourlyTimeblock);
 }
