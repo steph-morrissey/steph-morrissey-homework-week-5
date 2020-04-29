@@ -26,7 +26,7 @@ function hourlyTimeblock(hour, index) {
   // create each timeblock row
   const myRow = $("<div>").attr({ class: "row border-bottom" });
   $form = $("<form></form>");
-  $form.append("<input type='password' class='form-control'>");
+  $form.append("<input type='event' class='form-control-plaintext'>");
 
   const button = $("<button>").text("+");
   const hourCol = $("<div>")
@@ -37,6 +37,15 @@ function hourlyTimeblock(hour, index) {
   eventsCol.append($form);
   myRow.append(hourCol, eventsCol, addCol);
   $(".eventsRow").append(myRow);
+
+  //IF statement to colour code past, present and future events
+  if (hour.time < moment().format("HH")) {
+    myRow.addClass("past");
+  } else if (hour.time === moment().format("HH")) {
+    myRow.addClass("present");
+  } else {
+    myRow.addClass("future");
+  }
 }
 
 function displayTimeblocks() {
