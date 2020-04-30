@@ -24,27 +24,39 @@ function displayCurrentDate() {
 // Display timeblocks within timeblocks div
 function hourlyTimeblock(hour, index) {
   // create each timeblock row
-  const myRow = $("<div>").attr({ class: "row border-bottom" });
-  $form = $("<form></form>");
-  $form.append("<input type='event' class='form-control-plaintext'>");
-
-  const button = $("<button>").text("+");
+  const timeblockRow = $("<div>").attr({ class: "row  border-bottom" });
+  // create each timeblock hour column
   const hourCol = $("<div>")
     .attr({ class: "col-2 p-4" })
     .text(hour.time + hour.meridiem);
+  // create each timeblock form column
   const eventsCol = $("<div>").attr({ class: "col-8 p-4" });
-  const addCol = $("<div>").attr({ class: "col-2 p-4" }).append(button);
+  $form = $("<form></form>");
+  $form.append("<input type='text' class='form-control-plaintext'>");
+  // create button element column
+  const addCol = $("<div>").attr({ class: "col-2 p-4" });
+  const addButton = $("<button>").addClass("btn btn-default");
+  const spanButton = $(
+    "<span class='glyphicon glyphicon-plus-sign' aria-hidden='true'>"
+  );
+  addButton.append(spanButton);
+  addCol.append(addButton);
+
+  // append to the document via the renderTimeblocks div
   eventsCol.append($form);
-  myRow.append(hourCol, eventsCol, addCol);
-  $(".eventsRow").append(myRow);
+  timeblockRow.append(hourCol, eventsCol, addCol);
+  $(".renderTimeblocks").append(timeblockRow);
 
   //IF statement to colour code past, present and future events
   if (hour.time < moment().format("HH")) {
-    myRow.addClass("past");
+    eventsCol.addClass("past");
+    addCol.addClass("past");
   } else if (hour.time === moment().format("HH")) {
-    myRow.addClass("present");
+    eventsCol.addClass("present");
+    addCol.addClass("present");
   } else {
-    myRow.addClass("future");
+    eventsCol.addClass("future");
+    addCol.addClass("future");
   }
 }
 
@@ -53,4 +65,3 @@ function displayTimeblocks() {
 }
 displayCurrentDate();
 displayTimeblocks();
-// Declaring Array for timeblocks
