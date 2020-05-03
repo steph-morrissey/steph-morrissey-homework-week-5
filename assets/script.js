@@ -14,10 +14,10 @@ let dayPlannerInfo = [
   { id: "8", time: "17", meridiem: "pm", event: "" },
 ];
 // Variable for displaying current date
+const currentDate = moment().format("dddd, MMMM Do");
 
 //Display current date
 function displayCurrentDate() {
-  const currentDate = moment().format("dddd, MMMM Do");
   $("#date-display").text(currentDate);
 }
 
@@ -32,6 +32,7 @@ function displayEvents() {
     console.log("#" + eachHour.id + "");
   });
 }
+displayCurrentDate();
 
 function addToLocalStorage() {
   let savedDayPlannerInfo = JSON.parse(localStorage.getItem("dayPlannerInfo"));
