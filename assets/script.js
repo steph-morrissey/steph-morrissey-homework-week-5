@@ -7,7 +7,12 @@ let dayPlannerInfo = [
   { id: "1", time: "10", meridiem: "am", event: "" },
   { id: "2", time: "11", meridiem: "am", event: "" },
   { id: "3", time: "12", meridiem: "pm", event: "" },
-  { id: "4", time: "13", meridiem: "pm", event: "" },
+  {
+    id: "4",
+    time: "13",
+    meridiem: "pm",
+    event: "",
+  },
   { id: "5", time: "14", meridiem: "pm", event: "" },
   { id: "6", time: "15", meridiem: "pm", event: "" },
   { id: "7", time: "16", meridiem: "pm", event: "" },
@@ -21,34 +26,14 @@ function displayCurrentDate() {
   $("#date-display").text(currentDate);
 }
 
-// save events data to localStorage
-function saveEvents() {
-  localStorage.setItem("dayPlannerInfo", JSON.stringify(dayPlannerInfo));
-}
-
-function displayEvents() {
-  dayPlannerInfo.forEach(function (eachHour) {
-    $("#" + eachHour.id + "").val(eachHour.event);
-    console.log("#" + eachHour.id + "");
-  });
-}
 displayCurrentDate();
 
-function addToLocalStorage() {
-  let savedDayPlannerInfo = JSON.parse(localStorage.getItem("dayPlannerInfo"));
-
-  if (savedDayPlannerInfo) {
-    dayPlannerInfo = savedDayPlannerInfo;
-  }
-
-  saveEvents();
-  displayEvents();
-}
 // Display timeblocks within timeblocks div
-function hourlyTimeblock(hour) {
+function hourlyTimeblock(hour, index) {
   // creates timeblocks row
   var timeblockRow = $("<form>").attr({
     class: "row",
+    id: index,
   });
   $(".renderTimeblocks").append(timeblockRow);
 
@@ -63,10 +48,9 @@ function hourlyTimeblock(hour) {
   var eventsDisplayCol = $("<div>").attr({
     class: "col-md-9 event p-4",
   });
-  var textareaElement = $("<textarea>").addClass("texty");
+  var textareaElement = $("<textarea>").text(hour.event);
   eventsDisplayCol.append(textareaElement);
-  textareaElement.attr({ id: hour.id }, { class: "event" });
-  console.log(hour.id);
+  textareaElement.attr({ class: "event" });
 
   //IF statement to colour code past, present and future events
   if (hour.time < moment().format("HH")) {
@@ -79,7 +63,7 @@ function hourlyTimeblock(hour) {
 
   const saveButtonSpan = $(
     "<span class='glyphicon glyphicon-plus-sign' aria-hidden='true'></span>"
-  );
+  ).attr("id", hour.id);
   const saveEventButton = $("<button>").attr({
     class: "float-right saveBtn",
   });
@@ -88,18 +72,14 @@ function hourlyTimeblock(hour) {
 }
 
 dayPlannerInfo.forEach(hourlyTimeblock);
-addToLocalStorage();
 
-function addEvent(response) {
+function addEvents(response) {
   response.preventDefault();
+  const saveIndex = response.target.id;
+  const eventValue = response.currentTarget[0].value;
+  dayPlannerInfo[saveIndex].event = eventValue;
 
-  const eventIndex = event.currentTarget.form[0].id;
-  const dayPlannerIndex = dayPlannerInfo[eventIndex].event;
-  const dayPlannerPush = event.currentTarget.form[0].value;
-  dayPlannerInfo[eventIndex].splice(0, 0, dayPlannerPush);
-  console.log(dayPlannerIndex);
   console.log(dayPlannerInfo);
-  console.log(dayPlannerPush);
 }
 
-$(".saveBtn").on("click", addEvent);
+$("form").submit(addEvents);
