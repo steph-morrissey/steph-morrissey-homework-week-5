@@ -28,6 +28,26 @@ function displayCurrentDate() {
 
 displayCurrentDate();
 
+function saveEvents() {
+  localStorage.setItem("dayPlannerInfo", JSON.stringify(dayPlannerInfo));
+}
+function displayEvents() {
+  dayPlannerInfo.forEach(function (thisHour) {
+    console.log($("#textarea" + thisHour.id).val(thisHour.event));
+  });
+}
+
+function setLocalStorage() {
+  var storedDayPlannerInfo = JSON.parse(localStorage.getItem("dayPlannerInfo"));
+
+  if (storedDayPlannerInfo) {
+    dayPlannerInfo = storedDayPlannerInfo;
+  }
+
+  saveEvents();
+  displayEvents();
+}
+
 // Display timeblocks within timeblocks div
 function hourlyTimeblock(hour, index) {
   // creates timeblocks row
@@ -48,9 +68,9 @@ function hourlyTimeblock(hour, index) {
   var eventsDisplayCol = $("<div>").attr({
     class: "col-md-9 event p-4",
   });
-  var textareaElement = $("<textarea>").text(hour.event);
+  var textareaElement = $("<textarea>");
   eventsDisplayCol.append(textareaElement);
-  textareaElement.attr({ class: "event" });
+  textareaElement.attr({ class: "event", id: "textarea" + index });
 
   //IF statement to colour code past, present and future events
   if (hour.time < moment().format("HH")) {
@@ -80,6 +100,8 @@ function addEvents(response) {
   dayPlannerInfo[saveIndex].event = eventValue;
 
   console.log(dayPlannerInfo);
+  saveEvents();
+  displayEvents();
 }
-
+setLocalStorage();
 $("form").submit(addEvents);
