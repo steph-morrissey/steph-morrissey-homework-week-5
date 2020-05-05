@@ -14,12 +14,12 @@ textarea {
 
 .past {
   background-color: #ecf0f1;
-  color: #000000;
+  color: #d3d3d3;
 }
 
 .present {
   background-color: #dc7633;
-  color: #ffffff;
+  color: #000000;
 }
 
 .future {
