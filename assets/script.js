@@ -1,7 +1,8 @@
-// A $( document ).ready() block.
+// Ensure document is ready before executing any js
 $(document).ready(function () {
   console.log("ready!");
 });
+// Initialised array with timeblock information and empty event property for users scheduled events
 let dayPlannerInfo = [
   { id: "0", time: "09", meridiem: "am", event: "" },
   { id: "1", time: "10", meridiem: "am", event: "" },
@@ -18,25 +19,26 @@ let dayPlannerInfo = [
   { id: "7", time: "16", meridiem: "pm", event: "" },
   { id: "8", time: "17", meridiem: "pm", event: "" },
 ];
-// Variable for displaying current date
+// Variable for displaying current date using moment.js
 const currentDate = moment().format("dddd, MMMM Do");
 
-//Display current date
+// Display current date function
 function displayCurrentDate() {
   $("#date-display").text(currentDate);
 }
-
+// Execution of displayCurrentDate function
 displayCurrentDate();
-
+// Function to save inputted events by the user into localStorage
 function saveEvents() {
   localStorage.setItem("dayPlannerInfo", JSON.stringify(dayPlannerInfo));
 }
+// Function to display saved events from localStorage into the display window
 function displayEvents() {
   dayPlannerInfo.forEach(function (thisHour) {
     console.log($("#textarea" + thisHour.id).val(thisHour.event));
   });
 }
-
+// Setting localStorage
 function setLocalStorage() {
   var storedDayPlannerInfo = JSON.parse(localStorage.getItem("dayPlannerInfo"));
 
@@ -47,7 +49,6 @@ function setLocalStorage() {
   saveEvents();
   displayEvents();
 }
-
 // Display timeblocks within timeblocks div
 function hourlyTimeblock(hour, index) {
   // creates timeblocks row
@@ -89,10 +90,7 @@ function hourlyTimeblock(hour, index) {
   });
   saveEventButton.append(saveButtonSpan);
   timeblockRow.append(hourCol, eventsDisplayCol, saveEventButton);
-}
-
-dayPlannerInfo.forEach(hourlyTimeblock);
-
+} // Function executed when user clicks on one of the add buttons
 function addEvents(response) {
   response.preventDefault();
   const saveIndex = response.target.id;
@@ -103,5 +101,9 @@ function addEvents(response) {
   saveEvents();
   displayEvents();
 }
+// For each to replicate times and events within display window
+dayPlannerInfo.forEach(hourlyTimeblock);
+// Execution of setLocalStorage function
 setLocalStorage();
+// Event listener for form elements within display window
 $("form").submit(addEvents);
