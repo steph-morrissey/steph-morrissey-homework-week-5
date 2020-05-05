@@ -33,3 +33,11 @@ Project is created with:
 - Similarly, to delete an event click on that current event, delete the information and then click the save button
 
 ## Screenshots
+
+![planner_without_info](assets/images/planner_without_info.png)
+
+- Work Day planner without any events
+
+![planner_with_info](assets/images/planner_with_info.png)
+
+- Work Day Planner with scheduled events within it
