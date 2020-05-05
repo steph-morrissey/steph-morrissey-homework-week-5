@@ -53,7 +53,7 @@ function setLocalStorage() {
 function hourlyTimeblock(hour, index) {
   // creates timeblocks row
   var timeblockRow = $("<form>").attr({
-    class: "row",
+    class: "row border-bottom",
     id: index,
   });
   $(".renderTimeblocks").append(timeblockRow);
@@ -62,12 +62,12 @@ function hourlyTimeblock(hour, index) {
   var hourCol = $("<div>")
     .text(hour.time + hour.meridiem)
     .attr({
-      class: "col-md-2 hour",
+      class: "col-md-1 text-center pt-4 hour",
     });
 
   // creates schdeduler data
   var eventsDisplayCol = $("<div>").attr({
-    class: "col-md-9 event p-4",
+    class: "col-md-10 event p-4",
   });
   var textareaElement = $("<textarea>");
   eventsDisplayCol.append(textareaElement);
